@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INMAN COMPANY</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Chống bôi đen copy text */
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <img src="home_page.svg" alt="home" />
+    </main>
+
+    <script>
+        // Chặn chuột phải
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+
+        // Chặn các phím mở DevTools
+        document.addEventListener("keydown", function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.key === "I") {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.key === "J") {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.key === "C") {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && e.key === "U") {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Chặn mở DevTools bằng cách kiểm tra kích thước cửa sổ
+        setInterval(function() {
+            if (window.outerHeight - window.innerHeight > 200 ||
+                window.outerWidth - window.innerWidth > 200) {
+                document.body.innerHTML = "";
+                alert("Tính năng bị vô hiệu hoá!");
+                window.close();
+            }
+        }, 500);
+    </script>
+
+</body>
+</html>
