@@ -1,122 +1,263 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>INMAN COMPANY</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-        }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-        }
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+  }
 
-        main img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+  body,
+  html {
+    width: 100%;
+    height: 100%;
+  }
 
-        /* Ảnh ẩn thì không chiếm chỗ, không hiện */
-        main img.hidden {
-            display: none;
-        }
+  main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
-        .lang-switcher {
-            position: fixed;
-            top: 18px;
-            right: 18px;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            border-radius: 30px;
-            padding: 4px;
-            gap: 2px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.13);
-        }
+  /* TOP SWITCHER */
+  .page-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
 
-        .lang-btn {
-            padding: 6px 16px;
-            border-radius: 24px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            color: #444;
-            transition: background 0.25s, color 0.25s, transform 0.15s;
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            line-height: 1.4;
-        }
+    display: none;
+    gap: 8px;
 
-        .lang-btn.active {
-            background: #fff;
-            color: #111;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.13);
-        }
+    padding: 8px;
 
-        .lang-btn:not(.active):hover {
-            background: rgba(255,255,255,0.35);
-            transform: scale(1.04);
-        }
+    border-radius: 999px;
 
-        .lang-btn span.flag {
-            margin-right: 5px;
-            font-size: 15px;
-        }
-    </style>
-</head>
+    background: rgba(255,255,255,0.95);
 
-<body>
+    border: 1px solid #e8e8e8;
+
+    box-shadow:
+      0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  .page-switcher.show {
+    display: flex;
+  }
+
+  .page-btn {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #666;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s;
+  }
+
+  .page-btn:hover {
+    background: #fff3ef;
+    color: #f04a2f;
+  }
+
+  .page-btn.active {
+    background: #f04a2f;
+    color: white;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: fixed;
+
+    left: 50%;
+    bottom: 30px;
+
+    transform: translateX(-50%);
+    z-index: 999;
+
+    display: flex;
+    gap: 8px;
+
+    padding: 8px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.95);
+
+    border: 1px solid #e8e8e8;
+
+    box-shadow:
+      0 12px 30px rgba(0,0,0,0.08);
+  }
+
+  .nav-item {
+    border: none;
+
+    background: transparent;
+
+    color: #444;
+
+    cursor: pointer;
+
+    padding: 11px 18px;
+
+    border-radius: 999px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: .25s;
+  }
+
+  .nav-item:hover {
+    background: #fff3ef;
+    color: #f04a2f;
+  }
+
+  .nav-item.active {
+    background: #f04a2f;
+    color: white;
+  }
+</style>
+  </head>
+
+  <body>
+    <!-- Background -->
     <main>
-        <img id="img-zh" src="./Home_page_China.svg" alt="home" />
-        <img id="img-vi" src="./Home_page.svg" alt="home" class="hidden" />
+      <img
+        id="main-image"
+        src="./Demo_Iron/Demo_Iron/Home.png"
+        alt="Main Image"
+      />
     </main>
 
-    <div class="lang-switcher">
-        <button class="lang-btn" id="btn-vi" onclick="switchLang('vi')">
-            <span class="flag">🇻🇳</span>Tiếng Việt
-        </button>
-        <button class="lang-btn active" id="btn-zh" onclick="switchLang('zh')">
-            <span class="flag">🇨🇳</span>中文
-        </button>
-    </div>
+    <!-- Top Switcher -->
+    <div class="page-switcher" id="page-switcher"></div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="changeSection('home', this)">
+        Trang chủ
+      </button>
+      <button class="nav-item" onclick="changeSection('about', this)">
+        Về INMAN
+      </button>
+      <button class="nav-item" onclick="changeSection('product', this)">
+        Sản phẩm
+      </button>
+      <button class="nav-item" onclick="changeSection('news', this)">
+        Tin tức
+      </button>
+      <button class="nav-item" onclick="changeSection('branch', this)">
+        Chi nhánh
+      </button>
+      <button class="nav-item" onclick="changeSection('contact', this)">
+        Liên hệ
+      </button>
+    </nav>
 
     <script>
-        let currentLang = 'zh';
+      const pages = {
+        home: ["./Demo_Iron/Demo_Iron/Home.png"],
 
-        function switchLang(lang) {
-            if (lang === currentLang) return;
-            currentLang = lang;
+        about: [
+          "./Demo_Iron/Demo_Iron/About/About_Profile.png",
+          "./Demo_Iron/Demo_Iron/About/About_Services.png",
+          "./Demo_Iron/Demo_Iron/About/About_Team.png",
+          "./Demo_Iron/Demo_Iron/About/About_Partners.png",
+        ],
 
-            document.getElementById('img-vi').classList.toggle('hidden', lang !== 'vi');
-            document.getElementById('img-zh').classList.toggle('hidden', lang !== 'zh');
+        product: [
+          "./Demo_Iron/Demo_Iron/Products/Product_List.png",
+          "./Demo_Iron/Demo_Iron/Products/Product_Detail.png",
+        ],
 
-            document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
-            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+        news: [
+          "./Demo_Iron/Demo_Iron/Posts/Posts_List.png",
+          "./Demo_Iron/Demo_Iron/Posts/Post_Detail.png",
+        ],
+
+        branch: ["./Demo_Iron/Demo_Iron/Branches.png"],
+
+        contact: ["./Demo_Iron/Demo_Iron/Contact.png"],
+      };
+
+      let currentSection = "home";
+      let currentPage = 0;
+
+      function changeSection(section, btn) {
+        currentSection = section;
+        currentPage = 0;
+
+        // Active nav
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((el) => el.classList.remove("active"));
+
+        btn.classList.add("active");
+
+        // Update image
+        updateImage();
+
+        // Render switcher
+        renderSwitcher();
+      }
+
+      function updateImage() {
+        document.getElementById("main-image").src =
+          pages[currentSection][currentPage];
+      }
+
+      function renderSwitcher() {
+        const switcher = document.getElementById("page-switcher");
+
+        const total = pages[currentSection].length;
+
+        // Nếu chỉ có 1 page -> ẩn
+        if (total <= 1) {
+          switcher.classList.remove("show");
+          switcher.innerHTML = "";
+          return;
         }
 
-        document.addEventListener("contextmenu", e => e.preventDefault());
+        switcher.classList.add("show");
 
-        document.addEventListener("keydown", function(e) {
-            if (e.keyCode === 123) e.preventDefault();
-            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key)) e.preventDefault();
-            if (e.ctrlKey && e.key === "U") e.preventDefault();
-        });
+        switcher.innerHTML = "";
+
+        for (let i = 0; i < total; i++) {
+          const btn = document.createElement("button");
+
+          btn.className = "page-btn " + (i === currentPage ? "active" : "");
+
+          btn.innerText = String(i + 1).padStart(2, "0");
+
+          btn.onclick = () => {
+            currentPage = i;
+
+            updateImage();
+
+            renderSwitcher();
+          };
+
+          switcher.appendChild(btn);
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
