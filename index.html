@@ -173,91 +173,90 @@
     </nav>
 
     <script>
-      const pages = {
-        home: ["./Demo_Iron/Demo_Iron/Home.svg"],
+  const pages = {
+    home: ["./Demo_Iron/Demo_Iron/Home.svg"],
+    about: [
+      "./Demo_Iron/Demo_Iron/About/About_Profile.svg",
+      "./Demo_Iron/Demo_Iron/About/About_Services.svg",
+      "./Demo_Iron/Demo_Iron/About/About_Team.svg",
+      "./Demo_Iron/Demo_Iron/About/About_Partners.svg",
+    ],
+    product: [
+      "./Demo_Iron/Demo_Iron/Products/Product_List.svg",
+      "./Demo_Iron/Demo_Iron/Products/Product_Detail.svg",
+      "./Demo_Iron/Demo_Iron/Products/Services.svg",
+    ],
+    news: [
+      "./Demo_Iron/Demo_Iron/Posts/Post_List.svg",
+      "./Demo_Iron/Demo_Iron/Posts/Post_Detail.svg",
+    ],
+    branch: ["./Branches.svg"],
+    contact: ["./Contact.svg"],
+  };
 
-        about: [
-          "./Demo_Iron/Demo_Iron/About/About_Profile.svg",
-          "./Demo_Iron/Demo_Iron/About/About_Services.svg",
-          "./Demo_Iron/Demo_Iron/About/About_Team.svg",
-          "./Demo_Iron/Demo_Iron/About/About_Partners.svg",
-        ],
+  // ✅ PRELOAD: tạo Image objects để browser fetch & cache ngay khi trang load
+  function preloadAll() {
+    Object.values(pages).flat().forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }
 
-        product: [
-          "./Demo_Iron/Demo_Iron/Products/Product_List.svg",
-          "./Demo_Iron/Demo_Iron/Products/Product_Detail.svg",
-        ],
+  // ✅ FADE: thêm transition mượt khi đổi ảnh
+  function switchImage(src) {
+    const el = document.getElementById("main-image");
+    el.style.opacity = "0";
+    el.style.transition = "opacity 0.2s ease";
+    
+    const newImg = new Image();
+    newImg.onload = () => {
+      el.src = src;
+      el.style.opacity = "1";
+    };
+    newImg.src = src;
+  }
 
-        news: [
-          "./Demo_Iron/Demo_Iron/Posts/Post_List.svg",
-          "./Demo_Iron/Demo_Iron/Posts/Post_Detail.svg",
-        ],
+  let currentSection = "home";
+  let currentPage = 0;
 
-        branch: ["./Branches.svg"],
+  function changeSection(section, btn) {
+    currentSection = section;
+    currentPage = 0;
+    document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+    btn.classList.add("active");
+    updateImage();
+    renderSwitcher();
+  }
 
-        contact: ["./Contact.svg"],
-      };
+  function updateImage() {
+    switchImage(pages[currentSection][currentPage]);
+  }
 
-      let currentSection = "home";
-      let currentPage = 0;
-
-      function changeSection(section, btn) {
-        currentSection = section;
-        currentPage = 0;
-
-        // Active nav
-        document
-          .querySelectorAll(".nav-item")
-          .forEach((el) => el.classList.remove("active"));
-
-        btn.classList.add("active");
-
-        // Update image
+  function renderSwitcher() {
+    const switcher = document.getElementById("page-switcher");
+    const total = pages[currentSection].length;
+    if (total <= 1) {
+      switcher.classList.remove("show");
+      switcher.innerHTML = "";
+      return;
+    }
+    switcher.classList.add("show");
+    switcher.innerHTML = "";
+    for (let i = 0; i < total; i++) {
+      const btn = document.createElement("button");
+      btn.className = "page-btn " + (i === currentPage ? "active" : "");
+      btn.innerText = String(i + 1).padStart(2, "0");
+      btn.onclick = () => {
+        currentPage = i;
         updateImage();
-
-        // Render switcher
         renderSwitcher();
-      }
+      };
+      switcher.appendChild(btn);
+    }
+  }
 
-      function updateImage() {
-        document.getElementById("main-image").src =
-          pages[currentSection][currentPage];
-      }
-
-      function renderSwitcher() {
-        const switcher = document.getElementById("page-switcher");
-
-        const total = pages[currentSection].length;
-
-        // Nếu chỉ có 1 page -> ẩn
-        if (total <= 1) {
-          switcher.classList.remove("show");
-          switcher.innerHTML = "";
-          return;
-        }
-
-        switcher.classList.add("show");
-
-        switcher.innerHTML = "";
-
-        for (let i = 0; i < total; i++) {
-          const btn = document.createElement("button");
-
-          btn.className = "page-btn " + (i === currentPage ? "active" : "");
-
-          btn.innerText = String(i + 1).padStart(2, "0");
-
-          btn.onclick = () => {
-            currentPage = i;
-
-            updateImage();
-
-            renderSwitcher();
-          };
-
-          switcher.appendChild(btn);
-        }
-      }
-    </script>
+  // Chạy preload ngay khi DOM ready
+  document.addEventListener("DOMContentLoaded", preloadAll);
+</script>
   </body>
 </html>
